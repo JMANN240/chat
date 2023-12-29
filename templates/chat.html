@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Programmer Chat</title>
+	<link rel="stylesheet" href="/static/css/chat.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.1/socket.io.js"
+		integrity="sha512-Z6C1p1NIexPj5MsVUunW4pg7uMX6/TT3CUVldmjXx2kpip1eZcrAnxIusDxyFIikyM9A61zOVNgvLr/TGudOQg=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="/static/js/chat.js" defer></script>
+</head>
+<body>
+	<div id="header-div">
+		<h1>Programmer Chat</h1>
+		<h3 id="users-heading"></h3>
+	</div>
+	<div id="chat">
+		<div id="anchor"></div>
+	</div>
+	<div id="input-div">
+		<input type="text" id="text-input" autofocus>
+		<input type="file" accept=".png,.jpg,.jpeg,.git" name="image-input" id="image-input">
+		<label for="image-input" id="image-label">+</label>
+	</div>
+	<dialog id="username-modal">
+		<form id="username-form">
+			<input type="text" id="username-input">
+			<button>Join!</button>
+		</form>
+	</dialog>
+</body>
+</html>
