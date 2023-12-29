@@ -22,22 +22,24 @@ def sendUsers():
 def connect(auth):
 	username = auth['username']
 	users[request.sid] = username
+
 	socketio.emit('message', {
 		'username': 'SERVER',
-		'message': f"{username} has joined!",
-		'type': 'text'
+		'text': f"{username} has joined!"
 	})
+
 	sendUsers()
 
 @socketio.on('disconnect')
 def disconnect():
 	username = users[request.sid]
 	del users[request.sid]
+
 	socketio.emit('message', {
 		'username': 'SERVER',
-		'message': f"{username} has left!",
-		'type': 'text'
+		'text': f"{username} has left!"
 	})
+
 	sendUsers()
 
 @socketio.on('message')
