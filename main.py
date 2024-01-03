@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template, request, redirect, url_for
 from flask_socketio import SocketIO
 from werkzeug.utils import secure_filename
+from datetime import datetime
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
@@ -25,6 +26,7 @@ def connect(auth):
 
 	socketio.emit('message', {
 		'username': 'SERVER',
+		'time': datetime.now().isoformat(),
 		'text': f"{username} has joined!"
 	})
 
@@ -37,6 +39,7 @@ def disconnect():
 
 	socketio.emit('message', {
 		'username': 'SERVER',
+		'time': datetime.now().isoformat(),
 		'text': f"{username} has left!"
 	})
 

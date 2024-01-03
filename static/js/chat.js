@@ -1,3 +1,4 @@
+const root = document.querySelector(':root');
 const usersHeading = document.querySelector('#users-heading');
 const chat = document.querySelector('#chat');
 const anchor = document.querySelector('#anchor');
@@ -14,10 +15,66 @@ const updateUsers = (users) => {
 	usersHeading.innerHTML = users.usernames.join(", ");
 }
 
+const isUrl = (string) => {
+	const input = document.createElement('input');
+	input.type = 'url';
+	input.value = string;
+	return input.checkValidity();
+}
+
+const wrapLink = (string) => {
+	return `<a href="${string}" target="_blank">${string}</a>`;
+}
+
 let currentImages = []
 
+const getCss = (element, key) => {
+	const style = getComputedStyle(element)
+	return style.getPropertyValue(key);
+}
+
+const setCss = (element, key, value) => {
+	element.style.setProperty(key, value);
+}
+
+const getRootCss = (key) => {
+	return getCss(root, key);
+}
+
+const setRootCss = (key, value) => {
+	return setCss(root, key, value);
+}
+
+const parseCommand = (message) => {
+	if (message.text[0] === '/') {
+		const command = message.text.slice(1);
+		const tokens = command.split(' ');
+		const type = tokens[0];
+		if (type === 'css') {
+			key = tokens[1];
+			value = tokens[2];
+			setRootCss(key, value);
+		} else if (type === 'rawcss') {
+			const argsString = tokens.slice(1).join(' ');
+			const argStrings = argsString.split('~');
+			for (let argString of argStrings) {
+				const args = argString.split('|');
+				document.querySelectorAll(args[0]).forEach((element) => {
+					setCss(element, args[1], args[2]);
+				});
+			}
+		} else if (type === 'refresh') {
+			location.reload();
+		} else if (type === 'kick' && tokens.slice(1).join(' ') === username) {
+			// socket.close();
+		}
+	}
+}
+
+let socket;
+
 const socketSetup = () => {
-	const socket = io({
+	socket = io({
 		auth: {
 			username: username
 		}
@@ -29,7 +86,15 @@ const socketSetup = () => {
 	
 	socket.on('message', (data) => {
 		quack.cloneNode(true).play();
+		if (data.text.includes(username)) {
+			for (let i = 1; i < 10; i++) {
+				setTimeout(() => {
+					quack.cloneNode(true).play();
+				}, 100*i);
+			}
+		}
 		addMessageBubble(data);
+		parseCommand(data);
 	});
 	
 	document.addEventListener('keydown', async (e) => {
@@ -39,7 +104,8 @@ const socketSetup = () => {
 			socket.emit('message', {
 				username: username,
 				text: text,
-				images: serverImageNames
+				images: serverImageNames,
+				time: new Date()
 			});
 			textInput.value = "";
 			currentImages = [];
@@ -91,7 +157,7 @@ const createMessageBubble = (message) => {
 	const div = document.createElement('div');
 	div.classList.add('message', side, 'fade-up');
 
-	div.appendChild(createUsername(message.username));
+	div.appendChild(createUsername(message.username, message.time));
 
 	if (message.images) {
 		for (let image of message.images) {
@@ -106,9 +172,9 @@ const createMessageBubble = (message) => {
 	return div;
 }
 
-const createUsername = (username) => {
+const createUsername = (username, time) => {
 	const div = document.createElement('div');
-	div.innerHTML = `${username}:`;
+	div.innerHTML = `${username} at ${new Date(time).toLocaleString()}:`;
 	const br = document.createElement('br');
 	div.appendChild(br);
 	return div;
@@ -116,7 +182,15 @@ const createUsername = (username) => {
 
 const createText = (text) => {
 	const div = document.createElement('div');
-	div.innerHTML = text;
+	const preprocessedTokens = text.split(' ');
+	let postprocessedTokens = [];
+	for (let preprocessedToken of preprocessedTokens) {
+		if (isUrl(preprocessedToken)) {
+			preprocessedToken = wrapLink(preprocessedToken);
+		}
+		postprocessedTokens.push(preprocessedToken);
+	}
+	div.innerHTML = postprocessedTokens.join(' ');
 	return div;
 }
 
