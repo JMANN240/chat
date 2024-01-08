@@ -15,14 +15,15 @@ def chat():
 	return render_template('chat.html')
 
 def sendUsers():
-	socketio.emit('users', {
-		'usernames': [username for sid, username in users.items()]
-	})
+	socketio.emit('users', users)
 
 @socketio.on('connect')
 def connect(auth):
 	username = auth['username']
-	users[request.sid] = username
+	users[request.sid] = {
+		'username': username,
+		'status': 'idle'
+	}
 
 	socketio.emit('message', {
 		'username': 'SERVER',
@@ -34,20 +35,26 @@ def connect(auth):
 
 @socketio.on('disconnect')
 def disconnect():
-	username = users[request.sid]
+	user = users[request.sid]
 	del users[request.sid]
 
 	socketio.emit('message', {
 		'username': 'SERVER',
 		'time': datetime.now().isoformat(),
-		'text': f"{username} has left!"
+		'text': f"{user['username']} has left!"
 	})
 
 	sendUsers()
 
 @socketio.on('message')
 def message(data):
+	print(f"{data['username']}: {data['text']}")
 	socketio.emit('message', data)
+
+@socketio.on('status')
+def status(data):
+	users[request.sid]['status'] = data['status']
+	sendUsers()
 
 def allowed_file(filename):
 	return '.' in filename and \

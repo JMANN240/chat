@@ -12,7 +12,17 @@ const imagesDiv = document.querySelector('#images-div');
 const quack = new Audio('/static/audio/quack.mp3');
 
 const updateUsers = (users) => {
-	usersHeading.innerHTML = users.usernames.join(", ");
+	let userStates = [];
+	for (let sid in users) {
+		const user = users[sid];
+		const status = user.status;
+		let state = user.username;
+		if (status === 'typing') {
+			state += ' is typing';
+		}
+		userStates.push(state);
+	}
+	usersHeading.innerHTML = userStates.join(", ");
 }
 
 const isUrl = (string) => {
@@ -95,6 +105,21 @@ const socketSetup = () => {
 		}
 		addMessageBubble(data);
 		parseCommand(data);
+		createNotification(data);
+	});
+
+	const setUserStatus = (status) => {
+		socket.emit('status', {
+			status: status
+		})
+	}
+
+	textInput.addEventListener('input', () => {
+		if (textInput.value.length > 0) {
+			setUserStatus('typing');
+		} else {
+			setUserStatus('idle');
+		}
 	});
 	
 	document.addEventListener('keydown', async (e) => {
@@ -108,6 +133,7 @@ const socketSetup = () => {
 				time: new Date()
 			});
 			textInput.value = "";
+			setUserStatus('idle');
 			currentImages = [];
 			imagesDiv.innerHTML = '';
 			imagesDiv.style.display = 'none';
@@ -150,6 +176,12 @@ const socketSetup = () => {
 			}
 		}
 	});
+}
+
+const createNotification = (message) => {
+	new Notification("Programmer Chat", {
+		body: `${message.username}: ${message.text}`
+	})
 }
 
 const createMessageBubble = (message) => {
@@ -214,11 +246,18 @@ let username;
 
 usernameModal.showModal();
 
+const requestNotificationPermission = async () => {
+	if (Notification.permission === 'default') {
+		Notification.requestPermission();
+	}
+}
+
 usernameForm.addEventListener('submit', (e) => {
 	e.preventDefault();
-	if (usernameInput.value.match(/^.*\w.*$/)) {
+	if (usernameInput.value.match(/^.*\S.*$/)) {
 		username = usernameInput.value;
 		socketSetup();
+		requestNotificationPermission();
 		usernameModal.close();
 	}
 });
