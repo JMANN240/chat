@@ -23,6 +23,16 @@ const calculateScrollPercent = (element) => {
 	return scrollPercent;
 }
 
+let goingToBottom = false;
+let atBottom = true;
+
+chat.addEventListener('scroll', () => {
+	atBottom = calculateScrollPercent(chat) == 1;
+	if (atBottom) {
+		goingToBottom = false;
+	}
+})
+
 const updateUsers = (users) => {
 	let userStates = [];
 	for (let sid in users) {
@@ -136,6 +146,7 @@ const socketSetup = () => {
 	
 	document.addEventListener('keydown', async (e) => {
 		if (e.key === 'Enter' && (textInput.value.length > 0 || currentImages.length > 0)) {
+			goingToBottom = true;
 			anchor.scrollIntoView();
 			const serverImageNames = await Promise.all(currentImages.map(postImage));
 			const text = textInput.value;
@@ -250,10 +261,11 @@ const createImage = (src) => {
 }
 
 const addMessageBubble = (message) => {
-	const wasAtBottomOfChat = calculateScrollPercent(chat) == 1;
+	const wasAtBottom = atBottom;
 	const messageBubble = createMessageBubble(message);
 	chat.insertBefore(messageBubble, anchor);
-	if (wasAtBottomOfChat) {
+	if (wasAtBottom || goingToBottom) {
+		goingToBottom = true;
 		anchor.scrollIntoView();
 	}
 }
