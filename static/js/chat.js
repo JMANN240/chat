@@ -11,6 +11,18 @@ const imagesDiv = document.querySelector('#images-div');
 
 const quack = new Audio('/static/audio/quack.mp3');
 
+const calculateScrollPercent = (element) => {
+	const scrollHeight = element.scrollHeight;
+	const clientHeight = element.clientHeight;
+	const scrollRange = scrollHeight - clientHeight;
+	if (scrollRange == 0) {
+		return 1;
+	}
+	const scrollTop = element.scrollTop;
+	const scrollPercent = scrollTop / scrollRange;
+	return scrollPercent;
+}
+
 const updateUsers = (users) => {
 	let userStates = [];
 	for (let sid in users) {
@@ -124,6 +136,7 @@ const socketSetup = () => {
 	
 	document.addEventListener('keydown', async (e) => {
 		if (e.key === 'Enter' && (textInput.value.length > 0 || currentImages.length > 0)) {
+			anchor.scrollIntoView();
 			const serverImageNames = await Promise.all(currentImages.map(postImage));
 			const text = textInput.value;
 			socket.emit('message', {
@@ -237,9 +250,12 @@ const createImage = (src) => {
 }
 
 const addMessageBubble = (message) => {
+	const wasAtBottomOfChat = calculateScrollPercent(chat) == 1;
 	const messageBubble = createMessageBubble(message);
 	chat.insertBefore(messageBubble, anchor);
-	anchor.scrollIntoView();
+	if (wasAtBottomOfChat) {
+		anchor.scrollIntoView();
+	}
 }
 
 let username;
