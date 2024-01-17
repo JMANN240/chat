@@ -10,17 +10,18 @@
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="/static/js/chat.js" defer></script>
 </head>
-<body>
+<body class="theme-light">
 	<div id="header-div">
 		<div style="display: flex; gap: 1rem;">
 			<img src="/static/images/ddm.png" alt="Discount Drug Mart Food Fair" style="height: 8vh">
 			<h1>Programmer Chat</h1>
 		</div>
-		<h3 id="users-heading"></h3>
+		<div style="display: flex; gap: 1rem;">
+			<h3 id="users-heading"></h3>
+			<button id="toggle-theme">Theme</button>
+		</div>
 	</div>
-	<div id="chat">
-		<div id="anchor"></div>
-	</div>
+	<div id="chat"></div>
 	<div id="footer-div">
 		<div id="images-div">
 

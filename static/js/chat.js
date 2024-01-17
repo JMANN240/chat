@@ -1,5 +1,6 @@
 const root = document.querySelector(':root');
 const usersHeading = document.querySelector('#users-heading');
+const toggleTheme = document.querySelector('#toggle-theme');
 const chat = document.querySelector('#chat');
 const anchor = document.querySelector('#anchor');
 const textInput = document.querySelector('#text-input');
@@ -32,6 +33,25 @@ chat.addEventListener('scroll', () => {
 		goingToBottom = false;
 	}
 })
+
+const themes = ['light', 'dark', 'red', 'green', 'blue'];
+let currentThemeIndex = 0;
+
+toggleTheme.innerHTML = `Theme: ${themes[currentThemeIndex]}`;
+
+toggleTheme.addEventListener('click', () => {
+	for (let bodyClass of document.body.classList) {
+		if (bodyClass.startsWith('theme-')) {
+			document.body.classList.remove(bodyClass);
+		}
+	}
+	currentThemeIndex += 1;
+	if (currentThemeIndex >= themes.length) {
+		currentThemeIndex = 0;
+	}
+	document.body.classList.add(`theme-${themes[currentThemeIndex]}`);
+	toggleTheme.innerHTML = `Theme: ${themes[currentThemeIndex]}`;
+});
 
 const updateUsers = (users) => {
 	let userStates = [];
@@ -147,7 +167,6 @@ const socketSetup = () => {
 	document.addEventListener('keydown', async (e) => {
 		if (e.key === 'Enter' && (textInput.value.length > 0 || currentImages.length > 0)) {
 			goingToBottom = true;
-			anchor.scrollIntoView();
 			const serverImageNames = await Promise.all(currentImages.map(postImage));
 			const text = textInput.value;
 			socket.emit('message', {
@@ -237,6 +256,8 @@ const createUsername = (username, time) => {
 }
 
 const createText = (text) => {
+	text = text.replace(/\*\*(\S.*?\S|\S)\*\*/g, "<b>$1</b>") // Bolds must be done first
+	text = text.replace(/\*(\S.*?\S|\S)\*/g, "<i>$1</i>") // Then italics
 	const div = document.createElement('div');
 	const preprocessedTokens = text.split(' ');
 	let postprocessedTokens = [];
@@ -263,11 +284,11 @@ const createImage = (src) => {
 const addMessageBubble = (message) => {
 	const wasAtBottom = atBottom;
 	const messageBubble = createMessageBubble(message);
-	chat.insertBefore(messageBubble, anchor);
+	chat.appendChild(messageBubble);
 	if (wasAtBottom || goingToBottom) {
-		goingToBottom = true;
-		anchor.scrollIntoView();
+		chat.scrollTop = chat.scrollHeight;
 	}
+
 }
 
 let username;

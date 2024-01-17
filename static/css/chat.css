@@ -1,8 +1,4 @@
 :root {
-	--bg: #white;
-	--msg: white;
-	--fg: black;
-	--shadow: #80808080;
 	--ddm-blue: #00aff0;
 	--ddm-red: #ed1c3c;
 }
@@ -20,6 +16,41 @@ body {
 	display: flex;
 	flex-direction: column;
 	background-color: var(--bg);
+}
+
+body.theme-light {
+	--bg: #FFFFFF;
+	--msg: #FFFFFF;
+	--fg: #000000;
+	--shadow: #80808080;
+}
+
+body.theme-dark {
+	--bg: #202020;
+	--msg: #202020;
+	--fg: #e0e0e0;
+	--shadow: #00000080;
+}
+
+body.theme-red {
+	--bg: #402020;
+	--msg: #202020;
+	--fg: #f02020;
+	--shadow: #20000080;
+}
+
+body.theme-green {
+	--bg: #204020;
+	--msg: #202020;
+	--fg: #20f020;
+	--shadow: #00200080;
+}
+
+body.theme-blue {
+	--bg: #202040;
+	--msg: #202020;
+	--fg: #2020f0;
+	--shadow: #00002080;
 }
 
 #header-div {
@@ -199,9 +230,9 @@ dialog input {
 	}
 }
 
-dialog button {
+button {
 	font-size: medium;
-	background-color: white;
+	background-color: var(--bg);
 	padding-top: 0.25em;
 	padding-bottom: 0.25em;
 	padding-left: 0.5em;
