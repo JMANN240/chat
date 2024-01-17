@@ -83,6 +83,19 @@ body.theme-hacker {
 	--fg: #00ff00;
 	--shadow: #000000;
 	--msg-border-color: #000000;
+	--msg-border-width: 0;
+	--msg-margin: 0 1rem;
+	--msg-padding: 0;
+	--msg-display: flex;
+	--msg-self-align: flex-start;
+}
+
+body.theme-hacker .message-header::before {
+	content: '>>> ';
+}
+
+body.theme-hacker .message-header::after {
+	content: '\00a0';
 }
 
 body.theme-ksc {
@@ -129,17 +142,18 @@ h3 {
 
 .message {
 	max-width: 80vw;
-	padding: 1rem;
+	padding: var(--msg-padding, 1rem);
 	border-radius: 1rem;
 	color: var(--fg);
 	background-color: var(--msg);
 	box-shadow: 1px 2px 8px 0px var(--shadow);
-	margin: 1rem;
+	margin: var(--msg-margin, 1rem);
+	display: var(--msg-display);
 
-	border-bottom: 8px solid var(--msg-border-color-bottom);
-	border-left: 8px solid var(--msg-border-color-left);
-	border-top: 8px solid var(--msg-border-color-top);
-	border-right: 8px solid var(--msg-border-color-right);
+	border-bottom: var(--msg-border-width, 8px) solid var(--msg-border-color-bottom);
+	border-left: var(--msg-border-width, 8px) solid var(--msg-border-color-left);
+	border-top: var(--msg-border-width, 8px) solid var(--msg-border-color-top);
+	border-right: var(--msg-border-width, 8px) solid var(--msg-border-color-right);
 }
 
 #anchor {
@@ -148,7 +162,7 @@ h3 {
 
 .self.message {
 	border-bottom-right-radius: 0;
-	align-self: flex-end;
+	align-self: var(--msg-self-align, flex-end);
 }
 
 .other.message {

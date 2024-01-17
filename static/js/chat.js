@@ -249,7 +249,10 @@ const createMessageBubble = (message) => {
 
 const createUsername = (username, time) => {
 	const div = document.createElement('div');
-	div.innerHTML = `${username} at ${new Date(time).toLocaleString()}:`;
+	const span = document.createElement('span');
+	span.classList.add('message-header')
+	span.innerHTML = `${username} at ${new Date(time).toLocaleString()}:`;
+	div.appendChild(span);
 	const br = document.createElement('br');
 	div.appendChild(br);
 	return div;
