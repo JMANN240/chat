@@ -85,6 +85,14 @@ body.theme-hacker {
 	--msg-border-color: #000000;
 }
 
+body.theme-ksc {
+	--bg: #202020;
+	--msg: #202020;
+	--fg: #007bff;
+	--shadow: #007bff;
+	--msg-border-color: #007bff;
+}
+
 #header-div {
 	display: flex;
 	flex-direction: row;

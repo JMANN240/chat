@@ -34,7 +34,7 @@ chat.addEventListener('scroll', () => {
 	}
 })
 
-const themes = ['light', 'dark', 'red', 'green', 'blue', 'ice', 'hacker'];
+const themes = ['light', 'dark', 'red', 'green', 'blue', 'ice', 'hacker', 'ksc'];
 let currentThemeIndex = 0;
 
 toggleTheme.innerHTML = `Theme: ${themes[currentThemeIndex]}`;
