@@ -16,6 +16,14 @@ body {
 	display: flex;
 	flex-direction: column;
 	background-color: var(--bg);
+
+	--msg-border-color-bottom-left: var(--msg-border-color);
+	--msg-border-color-top-right: var(--msg-border-color);
+
+	--msg-border-color-bottom: var(--msg-border-color-bottom-left);
+	--msg-border-color-left: var(--msg-border-color-bottom-left);
+	--msg-border-color-top: var(--msg-border-color-top-right);
+	--msg-border-color-right: var(--msg-border-color-top-right);
 }
 
 body.theme-light {
@@ -23,6 +31,9 @@ body.theme-light {
 	--msg: #FFFFFF;
 	--fg: #000000;
 	--shadow: #80808080;
+	--msg-border-color-bottom-left: var(--ddm-blue);
+	--msg-border-color-top-right: var(--ddm-red);
+
 }
 
 body.theme-dark {
@@ -30,6 +41,8 @@ body.theme-dark {
 	--msg: #202020;
 	--fg: #e0e0e0;
 	--shadow: #00000080;
+	--msg-border-color-bottom-left: var(--ddm-blue);
+	--msg-border-color-top-right: var(--ddm-red);
 }
 
 body.theme-red {
@@ -37,6 +50,7 @@ body.theme-red {
 	--msg: #202020;
 	--fg: #f02020;
 	--shadow: #20000080;
+	--msg-border-color: var(--fg);
 }
 
 body.theme-green {
@@ -44,6 +58,7 @@ body.theme-green {
 	--msg: #202020;
 	--fg: #20f020;
 	--shadow: #00200080;
+	--msg-border-color: var(--fg);
 }
 
 body.theme-blue {
@@ -51,6 +66,23 @@ body.theme-blue {
 	--msg: #202020;
 	--fg: #2020f0;
 	--shadow: #00002080;
+	--msg-border-color: var(--fg);
+}
+
+body.theme-ice {
+	--bg: #d0e0f0;
+	--msg: #ffffff;
+	--fg: #4080f0;
+	--shadow: #80d0f0;
+	--msg-border-color: var(--shadow);
+}
+
+body.theme-hacker {
+	--bg: #000000;
+	--msg: #000000;
+	--fg: #00ff00;
+	--shadow: #000000;
+	--msg-border-color: #000000;
 }
 
 #header-div {
@@ -96,10 +128,10 @@ h3 {
 	box-shadow: 1px 2px 8px 0px var(--shadow);
 	margin: 1rem;
 
-	border-left: 8px solid var(--ddm-blue);
-	border-bottom: 8px solid var(--ddm-blue);
-	border-right: 8px solid var(--ddm-red);
-	border-top: 8px solid var(--ddm-red);
+	border-bottom: 8px solid var(--msg-border-color-bottom);
+	border-left: 8px solid var(--msg-border-color-left);
+	border-top: 8px solid var(--msg-border-color-top);
+	border-right: 8px solid var(--msg-border-color-right);
 }
 
 #anchor {
