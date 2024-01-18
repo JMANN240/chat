@@ -67,17 +67,6 @@ const updateUsers = (users) => {
 	usersHeading.innerHTML = userStates.join(", ");
 }
 
-const isUrl = (string) => {
-	const input = document.createElement('input');
-	input.type = 'url';
-	input.value = string;
-	return input.checkValidity();
-}
-
-const wrapLink = (string) => {
-	return `<a href="${string}" target="_blank">${string}</a>`;
-}
-
 let currentImages = []
 
 const getCss = (element, key) => {
@@ -271,16 +260,9 @@ const createText = (text) => {
 	console.log("Building message bubble body.");
 	text = text.replace(/\*\*(\S.*?\S|\S)\*\*/g, "<b>$1</b>") // Bolds must be done first
 	text = text.replace(/\*(\S.*?\S|\S)\*/g, "<i>$1</i>") // Then italics
+	text = text.replace(/((?:(?:https?):\/\/)?(?:[^\s\.]+\.)+\w+(?:(?:\/[\w]+)*\/?)?(?:\?(?:[^\s=]+=(?:[^\s&])&)*(?:[^\s=]+=(?:[^\s&])))?)/g, "<a href=\"$1\" target=\"_blank\">$1</a>");
 	const div = document.createElement('div');
-	const preprocessedTokens = text.split(' ');
-	let postprocessedTokens = [];
-	for (let preprocessedToken of preprocessedTokens) {
-		if (isUrl(preprocessedToken)) {
-			preprocessedToken = wrapLink(preprocessedToken);
-		}
-		postprocessedTokens.push(preprocessedToken);
-	}
-	div.innerHTML = postprocessedTokens.join(' ');
+	div.innerHTML = text;
 	return div;
 }
 
