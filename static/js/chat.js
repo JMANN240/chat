@@ -28,13 +28,23 @@ let goingToBottom = false;
 let atBottom = true;
 
 chat.addEventListener('scroll', () => {
-	atBottom = calculateScrollPercent(chat) == 1;
+	atBottom = calculateScrollPercent(chat) >= 0.999;
 	if (atBottom) {
 		goingToBottom = false;
 	}
 })
 
-const themes = ['light', 'dark', 'red', 'green', 'blue', 'ice', 'hacker', 'ksc'];
+const themes = [];
+for (let stylesheet of document.styleSheets) {
+	const rules = stylesheet.cssRules;
+	for (let rule of rules) {
+		console.log(typeof rule);
+		const match = rule.selectorText?.match(/^\.theme-(\w+)$/)
+		if (match) {
+			themes.push(match[1]);
+		}
+	}
+}
 let currentThemeIndex = 0;
 
 toggleTheme.innerHTML = `Theme: ${themes[currentThemeIndex]}`;
@@ -172,6 +182,7 @@ const socketSetup = () => {
 				time: new Date()
 			});
 			textInput.value = "";
+			previousTextInputLength = textInput.value.length
 			setUserStatus('idle');
 			currentImages = [];
 			imagesDiv.innerHTML = '';
@@ -260,7 +271,7 @@ const createText = (text) => {
 	console.log("Building message bubble body.");
 	text = text.replace(/\*\*(\S.*?\S|\S)\*\*/g, "<b>$1</b>") // Bolds must be done first
 	text = text.replace(/\*(\S.*?\S|\S)\*/g, "<i>$1</i>") // Then italics
-	text = text.replace(/((?:(?:https?):\/\/)?(?:[^\s\.]+\.)+\w+(?:(?:\/[\w]+)*\/?)?(?:\?(?:[^\s=]+=(?:[^\s&])&)*(?:[^\s=]+=(?:[^\s&])))?)/g, "<a href=\"$1\" target=\"_blank\">$1</a>");
+	text = text.replace(/((?:(?:https?):\/\/)?(?:[^\s\.]+\.)+\w+(?:(?:\/[^\s\/]+)*\/?)?(?:\?(?:[^\s=]+=(?:[^\s&])&)*(?:[^\s=]+=(?:[^\s&])))?)/g, "<a href=\"$1\" target=\"_blank\">$1</a>");
 	const div = document.createElement('div');
 	div.innerHTML = text;
 	return div;

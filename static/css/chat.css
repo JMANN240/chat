@@ -26,7 +26,7 @@ body {
 	--msg-border-color-right: var(--msg-border-color-top-right);
 }
 
-body.theme-light {
+.theme-light {
 	--bg: #FFFFFF;
 	--msg: #FFFFFF;
 	--fg: #000000;
@@ -36,7 +36,7 @@ body.theme-light {
 
 }
 
-body.theme-dark {
+.theme-dark {
 	--bg: #202020;
 	--msg: #202020;
 	--fg: #e0e0e0;
@@ -45,7 +45,7 @@ body.theme-dark {
 	--msg-border-color-top-right: var(--ddm-red);
 }
 
-body.theme-red {
+.theme-red {
 	--bg: #402020;
 	--msg: #202020;
 	--fg: #f02020;
@@ -53,7 +53,7 @@ body.theme-red {
 	--msg-border-color: var(--fg);
 }
 
-body.theme-green {
+.theme-green {
 	--bg: #204020;
 	--msg: #202020;
 	--fg: #20f020;
@@ -61,7 +61,7 @@ body.theme-green {
 	--msg-border-color: var(--fg);
 }
 
-body.theme-blue {
+.theme-blue {
 	--bg: #202040;
 	--msg: #202020;
 	--fg: #2020f0;
@@ -69,7 +69,7 @@ body.theme-blue {
 	--msg-border-color: var(--fg);
 }
 
-body.theme-ice {
+.theme-ice {
 	--bg: #d0e0f0;
 	--msg: #ffffff;
 	--fg: #4080f0;
@@ -77,12 +77,12 @@ body.theme-ice {
 	--msg-border-color: var(--shadow);
 }
 
-body.theme-hacker {
+.theme-hacker {
 	--bg: #000000;
-	--msg: #000000;
+	--msg: var(--bg);
 	--fg: #00ff00;
-	--shadow: #000000;
-	--msg-border-color: #000000;
+	--shadow: var(--bg);
+	--msg-border-color: var(--bg);
 	--msg-border-width: 0;
 	--msg-margin: 0 1rem;
 	--msg-padding: 0;
@@ -90,15 +90,15 @@ body.theme-hacker {
 	--msg-self-align: flex-start;
 }
 
-body.theme-hacker .message-header::before {
+.theme-hacker .message-header::before {
 	content: '>>> ';
 }
 
-body.theme-hacker .message-header::after {
+.theme-hacker .message-header::after {
 	content: '\00a0';
 }
 
-body.theme-ksc {
+.theme-ksc {
 	--bg: #202020;
 	--msg: #202020;
 	--fg: #007bff;
