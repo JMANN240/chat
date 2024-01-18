@@ -158,12 +158,16 @@ const socketSetup = () => {
 		})
 	}
 
+	let previousTextInputLength = 0;
+
 	textInput.addEventListener('input', () => {
-		if (textInput.value.length > 0) {
+		if (previousTextInputLength == 0 && textInput.value.length > 0) {
 			setUserStatus('typing');
-		} else {
+		} else if (previousTextInputLength > 0 && textInput.value.length == 0) {
 			setUserStatus('idle');
 		}
+
+		previousTextInputLength = textInput.value.length;
 	});
 	
 	document.addEventListener('keydown', async (e) => {
