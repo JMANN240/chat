@@ -133,10 +133,12 @@ const socketSetup = () => {
 	});
 	
 	socket.on('users', (data) => {
+		console.log("Got users: ", data);
 		updateUsers(data)
 	});
 	
 	socket.on('message', (data) => {
+		console.log("Got message: ", data);
 		quack.cloneNode(true).play();
 		if (data.text.includes(username)) {
 			for (let i = 1; i < 10; i++) {
@@ -169,6 +171,7 @@ const socketSetup = () => {
 			goingToBottom = true;
 			const serverImageNames = await Promise.all(currentImages.map(postImage));
 			const text = textInput.value;
+			console.log("Sending message.");
 			socket.emit('message', {
 				username: username,
 				text: text,
@@ -228,6 +231,7 @@ const createNotification = (message) => {
 }
 
 const createMessageBubble = (message) => {
+	console.log("Building message bubble.");
 	const side = message.username === username ? 'self' : 'other';
 	const div = document.createElement('div');
 	div.classList.add('message', side, 'fade-up');
@@ -248,6 +252,7 @@ const createMessageBubble = (message) => {
 }
 
 const createUsername = (username, time) => {
+	console.log("Building message bubble header line.");
 	const div = document.createElement('div');
 	const span = document.createElement('span');
 	span.classList.add('message-header')
@@ -259,6 +264,7 @@ const createUsername = (username, time) => {
 }
 
 const createText = (text) => {
+	console.log("Building message bubble body.");
 	text = text.replace(/\*\*(\S.*?\S|\S)\*\*/g, "<b>$1</b>") // Bolds must be done first
 	text = text.replace(/\*(\S.*?\S|\S)\*/g, "<i>$1</i>") // Then italics
 	const div = document.createElement('div');
@@ -275,6 +281,7 @@ const createText = (text) => {
 }
 
 const createImage = (src) => {
+	console.log(`Building message bubble image '${src}'.`);
 	const div = document.createElement('div');
 	const image = document.createElement('img');
 	image.src = `/static/images/${src}`;
@@ -285,6 +292,7 @@ const createImage = (src) => {
 }
 
 const addMessageBubble = (message) => {
+	console.log("Adding message bubble to chat.");
 	const wasAtBottom = atBottom;
 	const messageBubble = createMessageBubble(message);
 	chat.appendChild(messageBubble);
