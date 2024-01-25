@@ -149,6 +149,8 @@ h3 {
 	box-shadow: 1px 2px 8px 0px var(--shadow);
 	margin: var(--msg-margin, 1rem);
 	display: var(--msg-display);
+	overflow-wrap: anywhere;
+	word-break: normal;
 
 	border-bottom: var(--msg-border-width, 8px) solid var(--msg-border-color-bottom);
 	border-left: var(--msg-border-width, 8px) solid var(--msg-border-color-left);
