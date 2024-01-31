@@ -271,7 +271,8 @@ const createText = (text) => {
 	console.log("Building message bubble body.");
 	text = text.replace(/\*\*(\S.*?\S|\S)\*\*/g, "<b>$1</b>") // Bolds must be done first
 	text = text.replace(/\*(\S.*?\S|\S)\*/g, "<i>$1</i>") // Then italics
-	text = text.replace(/((?:(?:https?):\/\/)?(?:[^\s\.]+\.)+\w+(?::\d+)?(?:(?:\/[^\s\/]+)*\/?)?(?:\?(?:[^\s=]+=(?:[^\s&])&)*(?:[^\s=]+=(?:[^\s&])))?)/g, "<a href=\"$1\" target=\"_blank\">$1</a>");
+	text = text.replace(/((https?):\/\/((?:[^\s\.]+\.)+\w+)(:\d+)?((?:\/[^\s\/\?]+)*\/?)?(?:\?(\S+=[^\s"]+&?)*)?)/g, "<a href=\"$1\" target=\"_blank\">$1</a>"); // Links
+	text = text.replace(/(<iframe.+src=")<a href="(.+?)".+<\/a>(".+?<\/iframe>)/g, "$1$2$3"); // Stupid link fix
 	const div = document.createElement('div');
 	div.innerHTML = text;
 	return div;
