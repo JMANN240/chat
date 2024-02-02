@@ -274,7 +274,7 @@ const createText = (text) => {
 	if (!text.startsWith('<iframe')) {
 		text = text.replace(/((https?):\/\/www.youtube.com(:\d+)?((?:\/[^\s\/\?]+)*\/?)?(?:\?(\S+=[^\s"]+&?)*)?)/g, '<iframe width="560" height="315" src="$1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>') // Auto-embed YouTube videos
 		if (!text.startsWith('<iframe')) {
-			text = text.replace(/((https?):\/\/((?:[^\s\.]+\.)+\w+)(:\d+)?((?:\/[^\s\/\?]+)*\/?)?(?:\?(\S+=[^\s"]+&?)*)?)/g, "<a href=\"$1\" target=\"_blank\">$1</a>"); // Links
+			text = text.replace(/((https?):\/\/((?:[^\s\.\/]+\.)+\w+)(:\d+)?((?:\/[^\s\/\?]+)*\/?)?(?:\?(\S+=[^\s"]+&?)*)?)/g, "<a href=\"$1\" target=\"_blank\">$1</a>"); // Links
 			text = text.replace(/(<iframe.+src=")<a href="(.+?)".+<\/a>(".+?<\/iframe>)/g, "$1$2$3"); // Stupid link fix
 		} else {
 			text = text.replace(/watch\?.*v=([^&"]+)/g, "embed/$1"); // YouTube embedding
