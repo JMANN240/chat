@@ -158,6 +158,10 @@ h3 {
 	border-right: var(--msg-border-width, 8px) solid var(--msg-border-color-right);
 }
 
+.message img {
+	max-width: 6in;
+}
+
 #anchor {
 	flex: 0 0 1px;
 }
