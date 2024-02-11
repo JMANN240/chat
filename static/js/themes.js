@@ -12,7 +12,7 @@ for (let stylesheet of document.styleSheets) {
 			const themeOption = document.createElement("option");
 			themeOption.value = match[1];
 			themeOption.innerText = match[2];
-			changeTheme.appendChild(themeOption);
+			changeTheme.append(themeOption);
 		}
 	}
 }
