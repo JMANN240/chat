@@ -1,6 +1,5 @@
 const root = document.querySelector(':root');
 const usersHeading = document.querySelector('#users-heading');
-const toggleTheme = document.querySelector('#toggle-theme');
 const chat = document.querySelector('#chat');
 const anchor = document.querySelector('#anchor');
 const textInput = document.querySelector('#text-input');
@@ -33,35 +32,6 @@ chat.addEventListener('scroll', () => {
 		goingToBottom = false;
 	}
 })
-
-const themes = [];
-for (let stylesheet of document.styleSheets) {
-	const rules = stylesheet.cssRules;
-	for (let rule of rules) {
-		console.log(typeof rule);
-		const match = rule.selectorText?.match(/^\.theme-(\w+)$/)
-		if (match) {
-			themes.push(match[1]);
-		}
-	}
-}
-let currentThemeIndex = 0;
-
-toggleTheme.innerHTML = `Theme: ${themes[currentThemeIndex]}`;
-
-toggleTheme.addEventListener('click', () => {
-	for (let bodyClass of document.body.classList) {
-		if (bodyClass.startsWith('theme-')) {
-			document.body.classList.remove(bodyClass);
-		}
-	}
-	currentThemeIndex += 1;
-	if (currentThemeIndex >= themes.length) {
-		currentThemeIndex = 0;
-	}
-	document.body.classList.add(`theme-${themes[currentThemeIndex]}`);
-	toggleTheme.innerHTML = `Theme: ${themes[currentThemeIndex]}`;
-});
 
 const updateUsers = (users) => {
 	let userStates = [];

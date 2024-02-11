@@ -291,7 +291,7 @@ dialog input {
 	}
 }
 
-button {
+button, select {
 	font-size: medium;
 	background-color: var(--bg);
 	padding-top: 0.25em;
