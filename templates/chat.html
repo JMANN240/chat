@@ -4,11 +4,19 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Programmer Chat</title>
+	<link id="favicon" rel="icon" type="image/x-icon" href="">
 	<link rel="stylesheet" href="/static/css/chat.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.1/socket.io.js"
 		integrity="sha512-Z6C1p1NIexPj5MsVUunW4pg7uMX6/TT3CUVldmjXx2kpip1eZcrAnxIusDxyFIikyM9A61zOVNgvLr/TGudOQg=="
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="/static/js/notifications.js" defer></script>
 	<script src="/static/js/chat.js" defer></script>
+
+	<!-- Templates -->
+	<div id="new-messages-bar">
+		<h4>New messages</h4>
+		<hr>
+	</div>
 </head>
 <body class="theme-light">
 	<div id="header-div">
