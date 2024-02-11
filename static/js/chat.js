@@ -10,7 +10,8 @@ const usernameInput = document.querySelector('#username-input');
 const imageInput = document.querySelector('#image-input');
 const imagesDiv = document.querySelector('#images-div');
 
-const quack = new Audio('/static/audio/quack.mp3');
+const notificationBadge = new NotificationBadge();
+notificationBadge.drawBadge();
 
 const calculateScrollPercent = (element) => {
 	const scrollHeight = element.scrollHeight;
@@ -138,15 +139,11 @@ const socketSetup = () => {
 	
 	socket.on('message', (data) => {
 		console.log("Got message: ", data);
-		quack.cloneNode(true).play();
-		if (data.text.includes(username)) {
-			for (let i = 1; i < 10; i++) {
-				setTimeout(() => {
-					quack.cloneNode(true).play();
-				}, 100*i);
-			}
-		}
 		addMessageBubble(data);
+		if (!document.hasFocus())
+		{
+			notificationBadge.addUnreadMessage();
+		}
 		parseCommand(data);
 		createNotification(data);
 	});
@@ -304,7 +301,6 @@ const addMessageBubble = (message) => {
 	if (wasAtBottom || goingToBottom) {
 		chat.scrollTop = chat.scrollHeight;
 	}
-
 }
 
 let username;

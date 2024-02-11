@@ -319,3 +319,19 @@ dialog button:active {
 dialog::backdrop {
 	background-color: var(--shadow);
 }
+
+#new-messages-bar {
+	display: none;
+	text-align: center;
+	width: 100%;
+}
+
+#new-messages-bar hr {
+	width: 90%;
+	margin: 0 auto;
+	background-color: var(--fg);
+}
+
+#new-messages-bar h4 {
+	color: var(--fg);
+}
