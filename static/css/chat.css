@@ -185,26 +185,32 @@ h3 {
 }
 
 dialog {
-	padding: 1rem;
+	padding: var(--msg-padding, 1rem);
 	border-radius: 1rem;
-	background-color: white;
-	border: none;
-	outline: none;
+	color: var(--fg);
+	background-color: var(--msg);
 	box-shadow: 1px 2px 8px 0px var(--shadow);
+	border-bottom: var(--msg-border-width, 8px) solid var(--msg-border-color-bottom);
+	border-left: var(--msg-border-width, 8px) solid var(--msg-border-color-left);
+	border-top: var(--msg-border-width, 8px) solid var(--msg-border-color-top);
+	border-right: var(--msg-border-width, 8px) solid var(--msg-border-color-right);
 }
 
 dialog input {
-	font-size: medium;
-	background-color: white;
-	padding-top: 0.25em;
-	padding-bottom: 0.25em;
-	padding-left: 0.5em;
-	padding-right: 0.5em;
+	font-size: large;
+	color: var(--fg);
+	background-color: var(--msg);
 	margin: 0.5em;
-	border-radius: 1rem;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+	padding-left: 1rem;
+	padding-right: 1rem;
+	height: 2rem;
+	border-radius: 2rem;
 	border: none;
 	outline: none;
 	box-shadow: 1px 2px 8px 0px var(--shadow);
+	flex-grow: 1;
 }
 
 #footer-div {

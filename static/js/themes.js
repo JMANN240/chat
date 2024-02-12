@@ -1,25 +1,39 @@
 'use strict';
 
-const changeTheme = document.querySelector('#change-theme');
-let currentTheme = null;
+const themes = [];
 
 // Load themes
-for (let stylesheet of document.styleSheets) {
+for (const stylesheet of document.styleSheets) {
 	const rules = stylesheet.cssRules;
-	for (let rule of rules) {
+	for (const rule of rules) {
 		const match = rule.selectorText?.match(/^\.(theme-(\w+))$/)
 		if (match) {
-			const themeOption = document.createElement("option");
-			themeOption.value = match[1];
-			themeOption.innerText = match[2];
-			changeTheme.append(themeOption);
+			themes.push({
+				themeName: match[2],
+				themeClass: match[1]
+			});
 		}
 	}
 }
-currentTheme = changeTheme.querySelector("option").value;
+
+let currentThemeClass = localStorage.getItem('currentThemeClass') ?? themes[0].themeClass;
+document.body.classList.add(currentThemeClass);
+
+const changeTheme = document.querySelector('#change-theme');
+
+// Create theme options
+for (const theme of themes) {
+	const themeOption = document.createElement("option");
+	themeOption.value = theme.themeClass;
+	themeOption.innerText = theme.themeName;
+	themeOption.selected = theme.themeClass === currentThemeClass;
+	changeTheme.append(themeOption);
+}
 
 // Theme selection
 changeTheme.addEventListener("input", () => {
-	document.body.classList.replace(currentTheme, changeTheme.value);
-	currentTheme = changeTheme.value
+	const newThemeClass = changeTheme.value;
+	document.body.classList.replace(currentThemeClass, newThemeClass);
+	currentThemeClass = newThemeClass;
+	localStorage.setItem('currentThemeClass', currentThemeClass);
 });
